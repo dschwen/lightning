@@ -203,7 +203,7 @@ _jit_prolog(jit_state_t *_jit)
     jit_regset_set_ui(&_jitc->regsav, 0);
     offset = _jitc->functions.offset;
     if (offset >= _jitc->functions.length) {
-	jit_realloc((jit_pointer_t *)&_jitc->functions.ptr,
+	jit_lightning_realloc((jit_pointer_t *)&_jitc->functions.ptr,
 		    _jitc->functions.length * sizeof(jit_function_t),
 		    (_jitc->functions.length + 16) * sizeof(jit_function_t));
 	_jitc->functions.length += 16;
@@ -1725,7 +1725,7 @@ _emit_code(jit_state_t *_jit)
 		     * a common practice as first jit instruction */
 		    if (_jitc->prolog.offset >= _jitc->prolog.length) {
 			_jitc->prolog.length += 16;
-			jit_realloc((jit_pointer_t *)&_jitc->prolog.ptr,
+			jit_lightning_realloc((jit_pointer_t *)&_jitc->prolog.ptr,
 				    (_jitc->prolog.length - 16) *
 				    sizeof(jit_word_t),
 				    _jitc->prolog.length * sizeof(jit_word_t));
@@ -1901,7 +1901,7 @@ _patch(jit_state_t *_jit, jit_word_t instr, jit_node_t *node)
 	flag = node->u.n->flag;
     assert(!(flag & jit_flag_patch));
     if (_jitc->patches.offset >= _jitc->patches.length) {
-	jit_realloc((jit_pointer_t *)&_jitc->patches.ptr,
+	jit_lightning_realloc((jit_pointer_t *)&_jitc->patches.ptr,
 		    _jitc->patches.length * sizeof(jit_patch_t),
 		    (_jitc->patches.length + 1024) * sizeof(jit_patch_t));
 	_jitc->patches.length += 1024;

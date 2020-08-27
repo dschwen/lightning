@@ -680,7 +680,7 @@ _jit_data(jit_state_t *_jit, const void *data,
 	if (_jitc->data.ptr == NULL)
 	    jit_alloc((jit_pointer_t *)&_jitc->data.ptr, size);
 	else
-	    jit_realloc((jit_pointer_t *)&_jitc->data.ptr,
+	    jit_lightning_realloc((jit_pointer_t *)&_jitc->data.ptr,
 			_jit->data.length, size);
 	_jit->data.length = size;
     }
@@ -715,7 +715,7 @@ _jit_data(jit_state_t *_jit, const void *data,
 	}
 	node->u.w = _jitc->data.offset;
 	node->v.w = length;
-	jit_memcpy(_jitc->data.ptr + _jitc->data.offset, data, length);
+	jit_lightning_memcpy(_jitc->data.ptr + _jitc->data.offset, data, length);
 	_jitc->data.offset += length;
 
 	node->next = _jitc->data.table[key];
@@ -743,7 +743,7 @@ _jit_data(jit_state_t *_jit, const void *data,
 		    hash[key] = temp;
 		}
 	    }
-	    jit_free((jit_pointer_t *)&_jitc->data.table);
+	    jit_lightning_free((jit_pointer_t *)&_jitc->data.table);
 	    _jitc->data.table = hash;
 	    _jitc->data.size <<= 1;
 	}
@@ -762,7 +762,7 @@ _new_pool(jit_state_t *_jit)
 	jit_int32_t	 length;
 
 	length = _jitc->pool.length + 16;
-	jit_realloc((jit_pointer_t *)&_jitc->pool.ptr,
+	jit_lightning_realloc((jit_pointer_t *)&_jitc->pool.ptr,
 		    _jitc->pool.length * sizeof(jit_node_t *),
 		    length * sizeof(jit_node_t *));
 	_jitc->pool.length = length;
@@ -905,29 +905,29 @@ void _jit_really_clear_state(jit_state_t *_jit)
      * pointers to NULL to explicitly know they are released */
     _jitc->head = _jitc->tail = NULL;
 
-    jit_free((jit_pointer_t *)&_jitc->data.table);
+    jit_lightning_free((jit_pointer_t *)&_jitc->data.table);
     _jitc->data.size = _jitc->data.count = 0;
 
-    jit_free((jit_pointer_t *)&_jitc->spill);
-    jit_free((jit_pointer_t *)&_jitc->gen);
-    jit_free((jit_pointer_t *)&_jitc->values);
+    jit_lightning_free((jit_pointer_t *)&_jitc->spill);
+    jit_lightning_free((jit_pointer_t *)&_jitc->gen);
+    jit_lightning_free((jit_pointer_t *)&_jitc->values);
 
-    jit_free((jit_pointer_t *)&_jitc->blocks.ptr);
+    jit_lightning_free((jit_pointer_t *)&_jitc->blocks.ptr);
 
-    jit_free((jit_pointer_t *)&_jitc->patches.ptr);
+    jit_lightning_free((jit_pointer_t *)&_jitc->patches.ptr);
     _jitc->patches.offset = _jitc->patches.length = 0;
 
     for (offset = 0; offset < _jitc->functions.offset; offset++) {
 	function = _jitc->functions.ptr + offset;
-	jit_free((jit_pointer_t *)&function->regoff);
+	jit_lightning_free((jit_pointer_t *)&function->regoff);
     }
-    jit_free((jit_pointer_t *)&_jitc->functions.ptr);
+    jit_lightning_free((jit_pointer_t *)&_jitc->functions.ptr);
     _jitc->functions.offset = _jitc->functions.length = 0;
     _jitc->function = NULL;
 
     for (offset = 0; offset < _jitc->pool.offset; offset++)
-	jit_free((jit_pointer_t *)(_jitc->pool.ptr + offset));
-    jit_free((jit_pointer_t *)&_jitc->pool.ptr);
+	jit_lightning_free((jit_pointer_t *)(_jitc->pool.ptr + offset));
+    jit_lightning_free((jit_pointer_t *)&_jitc->pool.ptr);
     _jitc->pool.offset = _jitc->pool.length = 0;
     _jitc->list = NULL;
 
@@ -936,18 +936,18 @@ void _jit_really_clear_state(jit_state_t *_jit)
     _jitc->note.base = NULL;
 
 #if __arm__ && DISASSEMBLER
-    jit_free((jit_pointer_t *)&_jitc->data_info.ptr);
+    jit_lightning_free((jit_pointer_t *)&_jitc->data_info.ptr);
 #endif
 
 #if (__powerpc__ && _CALL_AIXDESC) || __ia64__
-    jit_free((jit_pointer_t *)&_jitc->prolog.ptr);
+    jit_lightning_free((jit_pointer_t *)&_jitc->prolog.ptr);
 #endif
 
 #if __ia64__
     jit_regset_del(&_jitc->regs);
 #endif
 
-    jit_free((jit_pointer_t *)&_jitc);
+    jit_lightning_free((jit_pointer_t *)&_jitc);
 }
 
 void
@@ -960,7 +960,7 @@ _jit_destroy_state(jit_state_t *_jit)
 	munmap(_jit->code.ptr, _jit->code.length);
     if (!_jit->user_data)
 	munmap(_jit->data.ptr, _jit->data.length);
-    jit_free((jit_pointer_t *)&_jit);
+    jit_lightning_free((jit_pointer_t *)&_jit);
 }
 
 void
@@ -1237,7 +1237,7 @@ _jit_link(jit_state_t *_jit, jit_node_t *node)
 	jit_word_t	  length;
 
 	length = _jitc->blocks.length + 16;
-	jit_realloc((jit_pointer_t *)&_jitc->blocks.ptr,
+	jit_lightning_realloc((jit_pointer_t *)&_jitc->blocks.ptr,
 		    _jitc->blocks.length * sizeof(jit_block_t),
 		    length * sizeof(jit_block_t));
 	_jitc->blocks.length = length;
@@ -1910,7 +1910,7 @@ _jit_dataset(jit_state_t *_jit)
     }
 
     if (!_jitc->no_data)
-	jit_memcpy(_jit->data.ptr, _jitc->data.ptr, _jitc->data.offset);
+	jit_lightning_memcpy(_jit->data.ptr, _jitc->data.ptr, _jitc->data.offset);
 
     if (_jitc->no_note) {
 	/* Space for one note is always allocated, so revert it here
@@ -1932,7 +1932,7 @@ _jit_dataset(jit_state_t *_jit)
     else {
 	ptr = _jit->data.ptr;
 	/* Temporary hashed data no longer required */
-	jit_free((jit_pointer_t *)&_jitc->data.ptr);
+	jit_lightning_free((jit_pointer_t *)&_jitc->data.ptr);
     }
 
     for (offset = 0; offset < _jitc->data.size; offset++) {
@@ -2092,7 +2092,7 @@ _jit_emit(jit_state_t *_jit)
 	jit_annotate();
 
     if (_jit->user_data)
-	jit_free((jit_pointer_t *)&_jitc->data.ptr);
+	jit_lightning_free((jit_pointer_t *)&_jitc->data.ptr);
     else {
 	result = mprotect(_jit->data.ptr, _jit->data.length, PROT_READ);
 	assert(result == 0);
@@ -2630,7 +2630,7 @@ _split_branches(jit_state_t *_jit)
 		    jit_word_t	  length;
 
 		    length = _jitc->blocks.length + 16;
-		    jit_realloc((jit_pointer_t *)&_jitc->blocks.ptr,
+		    jit_lightning_realloc((jit_pointer_t *)&_jitc->blocks.ptr,
 				_jitc->blocks.length * sizeof(jit_block_t),
 				length * sizeof(jit_block_t));
 		    _jitc->blocks.length = length;
@@ -2995,7 +2995,7 @@ _simplify_movr(jit_state_t *_jit, jit_node_t *prev, jit_node_t *node,
 	return (1);
     }
     if (_jitc->values[right].kind == jit_kind_word)
-	jit_memcpy(value, _jitc->values + right, sizeof(jit_value_t));
+	jit_lightning_memcpy(value, _jitc->values + right, sizeof(jit_value_t));
     else {
 	value->kind = jit_kind_register;
 	value->base.q.l = right;
@@ -3044,14 +3044,14 @@ _simplify_movi(jit_state_t *_jit, jit_node_t *prev, jit_node_t *node,
 		else
 		    node->code = jit_code_movr_d;
 		node->v.w = offset;
-		jit_memcpy(value, _jitc->values + offset, sizeof(jit_value_t));
+		jit_lightning_memcpy(value, _jitc->values + offset, sizeof(jit_value_t));
 		++_jitc->gen[regno];
 		return (0);
 	    }
 	}
     }
     value->kind = kind;
-    jit_memcpy(&value->base.w, &node->v.w, size);
+    jit_lightning_memcpy(&value->base.w, &node->v.w, size);
     ++_jitc->gen[regno];
 
     return (0);

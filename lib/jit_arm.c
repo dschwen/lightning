@@ -237,7 +237,7 @@ _jit_prolog(jit_state_t *_jit)
     jit_regset_set_ui(&_jitc->regsav, 0);
     offset = _jitc->functions.offset;
     if (offset >= _jitc->functions.length) {
-	jit_realloc((jit_pointer_t *)&_jitc->functions.ptr,
+	jit_lightning_realloc((jit_pointer_t *)&_jitc->functions.ptr,
 		    _jitc->functions.length * sizeof(jit_function_t),
 		    (_jitc->functions.length + 16) * sizeof(jit_function_t));
 	_jitc->functions.length += 16;
@@ -2207,13 +2207,13 @@ _flush_consts(jit_state_t *_jit)
     _jitc->consts.size = _jitc->consts.length << 2;
     /* FIXME check will not overrun, otherwise, need to reallocate
      * code buffer and start over */
-    jit_memcpy(_jitc->consts.data, _jitc->consts.values, _jitc->consts.size);
+    jit_lightning_memcpy(_jitc->consts.data, _jitc->consts.values, _jitc->consts.size);
     _jit->pc.w += _jitc->consts.size;
 
 #if DISASSEMBLER
     if (_jitc->data_info.ptr) {
 	if (_jitc->data_info.offset >= _jitc->data_info.length) {
-	    jit_realloc((jit_pointer_t *)&_jitc->data_info.ptr,
+	    jit_lightning_realloc((jit_pointer_t *)&_jitc->data_info.ptr,
 			_jitc->data_info.length * sizeof(jit_data_info_t),
 			(_jitc->data_info.length + 1024) *
 			sizeof(jit_data_info_t));
@@ -2262,7 +2262,7 @@ _patch(jit_state_t *_jit, jit_word_t instr, jit_node_t *node)
     assert(!(flag & jit_flag_patch));
     kind |= arm_patch_node;
     if (_jitc->patches.offset >= _jitc->patches.length) {
-	jit_realloc((jit_pointer_t *)&_jitc->patches.ptr,
+	jit_lightning_realloc((jit_pointer_t *)&_jitc->patches.ptr,
 		    _jitc->patches.length * sizeof(jit_patch_t),
 		    (_jitc->patches.length + 1024) * sizeof(jit_patch_t));
 	_jitc->patches.length += 1024;

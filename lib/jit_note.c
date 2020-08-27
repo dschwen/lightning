@@ -136,8 +136,8 @@ _jit_annotate(jit_state_t *_jit)
 	if ((length = sizeof(jit_line_t) * note->length) == 0)
 	    continue;
 	assert(_jitc->note.base + length < _jit->data.ptr + _jit->data.length);
-	jit_memcpy(_jitc->note.base, note->lines, length);
-	jit_free((jit_pointer_t *)&note->lines);
+	jit_lightning_memcpy(_jitc->note.base, note->lines, length);
+	jit_lightning_free((jit_pointer_t *)&note->lines);
 	note->lines = (jit_line_t *)_jitc->note.base;
 	_jitc->note.base += length;
     }
@@ -150,14 +150,14 @@ _jit_annotate(jit_state_t *_jit)
 	    length = sizeof(jit_int32_t) * line->length;
 	    assert(_jitc->note.base + length <
 		   _jit->data.ptr + _jit->data.length);
-	    jit_memcpy(_jitc->note.base, line->linenos, length);
-	    jit_free((jit_pointer_t *)&line->linenos);
+	    jit_lightning_memcpy(_jitc->note.base, line->linenos, length);
+	    jit_lightning_free((jit_pointer_t *)&line->linenos);
 	    line->linenos = (jit_int32_t *)_jitc->note.base;
 	    _jitc->note.base += length;
 	    assert(_jitc->note.base + length <
 		   _jit->data.ptr + _jit->data.length);
-	    jit_memcpy(_jitc->note.base, line->offsets, length);
-	    jit_free((jit_pointer_t *)&line->offsets);
+	    jit_lightning_memcpy(_jitc->note.base, line->offsets, length);
+	    jit_lightning_free((jit_pointer_t *)&line->offsets);
 	    line->offsets = (jit_int32_t *)_jitc->note.base;
 	    _jitc->note.base += length;
 	}
@@ -193,17 +193,17 @@ _jit_set_note(jit_state_t *_jit, jit_note_t *note,
 	else {
 	    /* line or offset changed */
 	    if ((line->length & 15) == 0) {
-		jit_realloc((jit_pointer_t *)&line->linenos,
+		jit_lightning_realloc((jit_pointer_t *)&line->linenos,
 			    line->length * sizeof(jit_int32_t),
 			    (line->length + 17) * sizeof(jit_int32_t));
-		jit_realloc((jit_pointer_t *)&line->offsets,
+		jit_lightning_realloc((jit_pointer_t *)&line->offsets,
 			    line->length * sizeof(jit_int32_t),
 			    (line->length + 17) * sizeof(jit_int32_t));
 	    }
 	    if (index < note->length) {
-		jit_memmove(line->linenos + index + 1, line->linenos + index,
+		jit_lightning_memmove(line->linenos + index + 1, line->linenos + index,
 			    sizeof(jit_int32_t) * (line->length - index));
-		jit_memmove(line->offsets + index + 1, line->offsets + index,
+		jit_lightning_memmove(line->offsets + index + 1, line->offsets + index,
 			    sizeof(jit_int32_t) * (line->length - index));
 	    }
 	    line->linenos[index] = lineno;
@@ -276,12 +276,12 @@ new_line(jit_int32_t index, jit_note_t *note,
     if (note->lines == NULL)
 	jit_alloc((jit_pointer_t *)&note->lines, 16 * sizeof(jit_line_t));
     else if ((note->length & 15) == 15)
-	jit_realloc((jit_pointer_t *)&note->lines,
+	jit_lightning_realloc((jit_pointer_t *)&note->lines,
 		    note->length * sizeof(jit_line_t),
 		    (note->length + 17) * sizeof(jit_line_t));
 
     if (index < note->length)
-	jit_memmove(note->lines + index + 1, note->lines + index,
+	jit_lightning_memmove(note->lines + index + 1, note->lines + index,
 		    sizeof(jit_line_t) * (note->length - index));
     line = note->lines + index;
     ++note->length;

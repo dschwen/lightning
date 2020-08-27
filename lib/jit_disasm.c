@@ -189,7 +189,7 @@ jit_init_debug(const char *progname)
 							    sym_count,
 							    &disasm_synthetic);
 	    if (disasm_num_synthetic > 0) {
-		jit_realloc((jit_pointer_t *)&disasm_symbols,
+		jit_lightning_realloc((jit_pointer_t *)&disasm_symbols,
 			    (sym_storage + dyn_storage) * sizeof(asymbol *),
 			    (sym_storage + dyn_storage + disasm_num_synthetic) *
 			    sizeof(asymbol *));
@@ -222,9 +222,9 @@ jit_finish_debug(void)
 {
 #if DISASSEMBLER
     if (disasm_synthetic)
-	jit_free((jit_pointer_t *)&disasm_synthetic);
+	jit_lightning_free((jit_pointer_t *)&disasm_synthetic);
     if (disasm_symbols)
-	jit_free((jit_pointer_t *)&disasm_symbols);
+	jit_lightning_free((jit_pointer_t *)&disasm_symbols);
     if (disasm_bfd)
 	bfd_close (disasm_bfd);
 #endif

@@ -39,7 +39,7 @@ static jit_free_func_ptr jit_free_ptr = jit_default_free_func;
  * Implementation
  */
 jit_pointer_t
-jit_memcpy(jit_pointer_t dst, const void * src, jit_word_t size)
+jit_lightning_memcpy(jit_pointer_t dst, const void * src, jit_word_t size)
 {
     if (size)
 	return (memcpy(dst, src, size));
@@ -47,7 +47,7 @@ jit_memcpy(jit_pointer_t dst, const void * src, jit_word_t size)
 }
 
 jit_pointer_t
-jit_memmove(jit_pointer_t dst, const void *src , jit_word_t size)
+jit_lightning_memmove(jit_pointer_t dst, const void *src , jit_word_t size)
 {
     if (size)
 	return (memmove(dst, src, size));
@@ -88,7 +88,7 @@ jit_alloc(jit_pointer_t *ptr, jit_word_t size)
 }
 
 void
-jit_realloc(jit_pointer_t *ptr, jit_word_t old_size, jit_word_t new_size)
+jit_lightning_realloc(jit_pointer_t *ptr, jit_word_t old_size, jit_word_t new_size)
 {
     *ptr = (*jit_realloc_ptr)(*ptr, new_size);
     if (old_size < new_size)
@@ -96,7 +96,7 @@ jit_realloc(jit_pointer_t *ptr, jit_word_t old_size, jit_word_t new_size)
 }
 
 void
-jit_free(jit_pointer_t *ptr)
+jit_lightning_free(jit_pointer_t *ptr)
 {
     if (*ptr) {
 	(*jit_free_ptr)(*ptr);

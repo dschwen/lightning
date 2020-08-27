@@ -739,11 +739,11 @@ extern void _jit_annotate(jit_state_t*);
 #define jit_print_node(u)	_jit_print_node(_jit,u)
 extern void _jit_print_node(jit_state_t*,jit_node_t*);
 
-extern jit_pointer_t jit_memcpy(jit_pointer_t,const void*,jit_word_t);
-extern jit_pointer_t jit_memmove(jit_pointer_t,const void*,jit_word_t);
+extern jit_pointer_t jit_lightning_memcpy(jit_pointer_t,const void*,jit_word_t);
+extern jit_pointer_t jit_lightning_memmove(jit_pointer_t,const void*,jit_word_t);
 extern void jit_alloc(jit_pointer_t*, jit_word_t);
-extern void jit_realloc(jit_pointer_t*, jit_word_t, jit_word_t);
-void jit_free(jit_pointer_t*);
+extern void jit_lightning_realloc(jit_pointer_t*, jit_word_t, jit_word_t);
+void jit_lightning_free(jit_pointer_t*);
 
 extern void jit_init_size(void);
 extern void jit_finish_size(void);
