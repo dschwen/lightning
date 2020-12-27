@@ -14,10 +14,11 @@ dnl or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
 dnl License for more details.
 dnl
 
-AC_PREREQ(2.57)
+AC_PREREQ([2.64])
 AC_INIT([GNU lightning], 2.1.3, pcpa@gnu.org, lightning)
 AC_CANONICAL_TARGET
 AC_CONFIG_SRCDIR([Makefile.am])
+AC_CONFIG_AUX_DIR([build-aux])
 AM_INIT_AUTOMAKE([dist-bzip2])
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 AC_CONFIG_MACRO_DIR(m4)
