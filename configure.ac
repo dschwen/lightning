@@ -7,7 +7,7 @@ dnl GNU lightning is free software; you can redistribute it and/or modify it
 dnl under the terms of the GNU Lesser General Public License as published
 dnl by the Free Software Foundation; either version 3, or (at your option)
 dnl any later version.
-dnl 
+dnl
 dnl GNU lightning is distributed in the hope that it will be useful, but
 dnl WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 dnl or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
@@ -27,6 +27,9 @@ AC_CONFIG_HEADERS(config.h)
 AC_PROG_CC
 AC_PROG_INSTALL
 AC_PROG_LIBTOOL
+
+dnl Check for visibility support
+gl_VISIBILITY
 
 case "$target_cpu" in
     ia64)

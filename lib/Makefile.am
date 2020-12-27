@@ -14,13 +14,14 @@
 # License for more details.
 #
 
-AM_CFLAGS = -I$(top_srcdir)/include -D_GNU_SOURCE $(LIGHTNING_CFLAGS)
+AM_CFLAGS = -I$(top_srcdir)/include -D_GNU_SOURCE $(LIGHTNING_CFLAGS) $(CFLAG_VISIBILITY)
+AM_CPPFLAGS = -DBUILDING_LIBLIGHTNING
 liblightning_LTLIBRARIES = liblightning.la
 liblightning_la_LDFLAGS = -version-info 1:0:0
 
 if get_jit_size
 JIT_SIZE_PATH = "$(top_builddir)/jit_$(cpu)-sz.c"
-AM_CPPFLAGS=-DGET_JIT_SIZE=1 -DJIT_SIZE_PATH='$(JIT_SIZE_PATH)'
+AM_CPPFLAGS += -DGET_JIT_SIZE=1 -DJIT_SIZE_PATH='$(JIT_SIZE_PATH)'
 endif
 
 liblightningdir = $(libdir)

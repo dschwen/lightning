@@ -94,6 +94,16 @@
 #  endif
 #endif
 
+#if BUILDING_LIBLIGHTNING && @HAVE_VISIBILITY@
+#define LIBLIGHTNING_DLL_EXPORTED __attribute__((__visibility__("default")))
+#elif BUILDING_LIBLIGHTNING && defined _MSC_VER
+#define LIBLIGHTNING_DLL_EXPORTED __declspec(dllexport)
+#elif defined _MSC_VER
+#define LIBLIGHTNING_DLL_EXPORTED __declspec(dllimport)
+#else
+#define LIBLIGHTNING_DLL_EXPORTED
+#endif
+
 typedef signed char		jit_int8_t;
 typedef unsigned char		jit_uint8_t;
 typedef signed short		jit_int16_t;
@@ -901,191 +911,191 @@ typedef void  (*jit_free_func_ptr)	(void*);
 /*
  * Prototypes
  */
-extern void init_jit(const char*);
-extern void finish_jit(void);
+extern LIBLIGHTNING_DLL_EXPORTED void init_jit(const char*);
+extern LIBLIGHTNING_DLL_EXPORTED void finish_jit(void);
 
-extern jit_state_t *jit_new_state(void);
+extern LIBLIGHTNING_DLL_EXPORTED jit_state_t *jit_new_state(void);
 #define jit_clear_state()	_jit_clear_state(_jit)
-extern void _jit_clear_state(jit_state_t*);
+extern LIBLIGHTNING_DLL_EXPORTED void _jit_clear_state(jit_state_t*);
 #define jit_destroy_state()	_jit_destroy_state(_jit)
-extern void _jit_destroy_state(jit_state_t*);
+extern LIBLIGHTNING_DLL_EXPORTED void _jit_destroy_state(jit_state_t*);
 
 #define jit_address(node)	_jit_address(_jit, node)
-extern jit_pointer_t _jit_address(jit_state_t*, jit_node_t*);
-extern jit_node_t *_jit_name(jit_state_t*, const char*);
-extern jit_node_t *_jit_note(jit_state_t*, const char*, int);
-extern jit_node_t *_jit_label(jit_state_t*);
-extern jit_node_t *_jit_forward(jit_state_t*);
-extern jit_node_t *_jit_indirect(jit_state_t*);
-extern void _jit_link(jit_state_t*, jit_node_t*);
+extern LIBLIGHTNING_DLL_EXPORTED jit_pointer_t _jit_address(jit_state_t*, jit_node_t*);
+extern LIBLIGHTNING_DLL_EXPORTED jit_node_t *_jit_name(jit_state_t*, const char*);
+extern LIBLIGHTNING_DLL_EXPORTED jit_node_t *_jit_note(jit_state_t*, const char*, int);
+extern LIBLIGHTNING_DLL_EXPORTED jit_node_t *_jit_label(jit_state_t*);
+extern LIBLIGHTNING_DLL_EXPORTED jit_node_t *_jit_forward(jit_state_t*);
+extern LIBLIGHTNING_DLL_EXPORTED jit_node_t *_jit_indirect(jit_state_t*);
+extern LIBLIGHTNING_DLL_EXPORTED void _jit_link(jit_state_t*, jit_node_t*);
 #define jit_forward_p(u)	_jit_forward_p(_jit,u)
-extern jit_bool_t _jit_forward_p(jit_state_t*,jit_node_t*);
+extern LIBLIGHTNING_DLL_EXPORTED jit_bool_t _jit_forward_p(jit_state_t*,jit_node_t*);
 #define jit_indirect_p(u)	_jit_indirect_p(_jit,u)
-extern jit_bool_t _jit_indirect_p(jit_state_t*,jit_node_t*);
+extern LIBLIGHTNING_DLL_EXPORTED jit_bool_t _jit_indirect_p(jit_state_t*,jit_node_t*);
 #define jit_target_p(u)		_jit_target_p(_jit,u)
-extern jit_bool_t _jit_target_p(jit_state_t*,jit_node_t*);
+extern LIBLIGHTNING_DLL_EXPORTED jit_bool_t _jit_target_p(jit_state_t*,jit_node_t*);
 
-extern void _jit_prolog(jit_state_t*);
+extern LIBLIGHTNING_DLL_EXPORTED void _jit_prolog(jit_state_t*);
 
-extern jit_int32_t _jit_allocai(jit_state_t*, jit_int32_t);
-extern void _jit_allocar(jit_state_t*, jit_int32_t, jit_int32_t);
-extern void _jit_ellipsis(jit_state_t*);
+extern LIBLIGHTNING_DLL_EXPORTED jit_int32_t _jit_allocai(jit_state_t*, jit_int32_t);
+extern LIBLIGHTNING_DLL_EXPORTED void _jit_allocar(jit_state_t*, jit_int32_t, jit_int32_t);
+extern LIBLIGHTNING_DLL_EXPORTED void _jit_ellipsis(jit_state_t*);
 
-extern jit_node_t *_jit_arg(jit_state_t*);
-extern void _jit_getarg_c(jit_state_t*, jit_gpr_t, jit_node_t*);
-extern void _jit_getarg_uc(jit_state_t*, jit_gpr_t, jit_node_t*);
-extern void _jit_getarg_s(jit_state_t*, jit_gpr_t, jit_node_t*);
-extern void _jit_getarg_us(jit_state_t*, jit_gpr_t, jit_node_t*);
-extern void _jit_getarg_i(jit_state_t*, jit_gpr_t, jit_node_t*);
+extern LIBLIGHTNING_DLL_EXPORTED jit_node_t *_jit_arg(jit_state_t*);
+extern LIBLIGHTNING_DLL_EXPORTED void _jit_getarg_c(jit_state_t*, jit_gpr_t, jit_node_t*);
+extern LIBLIGHTNING_DLL_EXPORTED void _jit_getarg_uc(jit_state_t*, jit_gpr_t, jit_node_t*);
+extern LIBLIGHTNING_DLL_EXPORTED void _jit_getarg_s(jit_state_t*, jit_gpr_t, jit_node_t*);
+extern LIBLIGHTNING_DLL_EXPORTED void _jit_getarg_us(jit_state_t*, jit_gpr_t, jit_node_t*);
+extern LIBLIGHTNING_DLL_EXPORTED void _jit_getarg_i(jit_state_t*, jit_gpr_t, jit_node_t*);
 #if __WORDSIZE == 64
-extern void _jit_getarg_ui(jit_state_t*, jit_gpr_t, jit_node_t*);
-extern void _jit_getarg_l(jit_state_t*, jit_gpr_t, jit_node_t*);
+extern LIBLIGHTNING_DLL_EXPORTED void _jit_getarg_ui(jit_state_t*, jit_gpr_t, jit_node_t*);
+extern LIBLIGHTNING_DLL_EXPORTED void _jit_getarg_l(jit_state_t*, jit_gpr_t, jit_node_t*);
 #endif
-extern void _jit_putargr(jit_state_t*, jit_gpr_t, jit_node_t*);
-extern void _jit_putargi(jit_state_t*, jit_word_t, jit_node_t*);
+extern LIBLIGHTNING_DLL_EXPORTED void _jit_putargr(jit_state_t*, jit_gpr_t, jit_node_t*);
+extern LIBLIGHTNING_DLL_EXPORTED void _jit_putargi(jit_state_t*, jit_word_t, jit_node_t*);
 
-extern void _jit_prepare(jit_state_t*);
-extern void _jit_ellipsis(jit_state_t*);
-extern void _jit_va_push(jit_state_t*, jit_gpr_t);
-extern void _jit_pushargr(jit_state_t*, jit_gpr_t);
-extern void _jit_pushargi(jit_state_t*, jit_word_t);
-extern void _jit_finishr(jit_state_t*, jit_gpr_t);
-extern jit_node_t *_jit_finishi(jit_state_t*, jit_pointer_t);
-extern void _jit_ret(jit_state_t*);
-extern void _jit_retr(jit_state_t*, jit_gpr_t);
-extern void _jit_reti(jit_state_t*, jit_word_t);
-extern void _jit_retval_c(jit_state_t*, jit_gpr_t);
-extern void _jit_retval_uc(jit_state_t*, jit_gpr_t);
-extern void _jit_retval_s(jit_state_t*, jit_gpr_t);
-extern void _jit_retval_us(jit_state_t*, jit_gpr_t);
-extern void _jit_retval_i(jit_state_t*, jit_gpr_t);
+extern LIBLIGHTNING_DLL_EXPORTED void _jit_prepare(jit_state_t*);
+extern LIBLIGHTNING_DLL_EXPORTED void _jit_ellipsis(jit_state_t*);
+extern LIBLIGHTNING_DLL_EXPORTED void _jit_va_push(jit_state_t*, jit_gpr_t);
+extern LIBLIGHTNING_DLL_EXPORTED void _jit_pushargr(jit_state_t*, jit_gpr_t);
+extern LIBLIGHTNING_DLL_EXPORTED void _jit_pushargi(jit_state_t*, jit_word_t);
+extern LIBLIGHTNING_DLL_EXPORTED void _jit_finishr(jit_state_t*, jit_gpr_t);
+extern LIBLIGHTNING_DLL_EXPORTED jit_node_t *_jit_finishi(jit_state_t*, jit_pointer_t);
+extern LIBLIGHTNING_DLL_EXPORTED void _jit_ret(jit_state_t*);
+extern LIBLIGHTNING_DLL_EXPORTED void _jit_retr(jit_state_t*, jit_gpr_t);
+extern LIBLIGHTNING_DLL_EXPORTED void _jit_reti(jit_state_t*, jit_word_t);
+extern LIBLIGHTNING_DLL_EXPORTED void _jit_retval_c(jit_state_t*, jit_gpr_t);
+extern LIBLIGHTNING_DLL_EXPORTED void _jit_retval_uc(jit_state_t*, jit_gpr_t);
+extern LIBLIGHTNING_DLL_EXPORTED void _jit_retval_s(jit_state_t*, jit_gpr_t);
+extern LIBLIGHTNING_DLL_EXPORTED void _jit_retval_us(jit_state_t*, jit_gpr_t);
+extern LIBLIGHTNING_DLL_EXPORTED void _jit_retval_i(jit_state_t*, jit_gpr_t);
 #if __WORDSIZE == 64
-extern void _jit_retval_ui(jit_state_t*, jit_gpr_t);
-extern void _jit_retval_l(jit_state_t*, jit_gpr_t);
+extern LIBLIGHTNING_DLL_EXPORTED void _jit_retval_ui(jit_state_t*, jit_gpr_t);
+extern LIBLIGHTNING_DLL_EXPORTED void _jit_retval_l(jit_state_t*, jit_gpr_t);
 #endif
-extern void _jit_epilog(jit_state_t*);
+extern LIBLIGHTNING_DLL_EXPORTED void _jit_epilog(jit_state_t*);
 
 #define jit_patch(u)		_jit_patch(_jit,u)
-extern void _jit_patch(jit_state_t*, jit_node_t*);
+extern LIBLIGHTNING_DLL_EXPORTED void _jit_patch(jit_state_t*, jit_node_t*);
 #define jit_patch_at(u,v)	_jit_patch_at(_jit,u,v)
-extern void _jit_patch_at(jit_state_t*, jit_node_t*, jit_node_t*);
+extern LIBLIGHTNING_DLL_EXPORTED void _jit_patch_at(jit_state_t*, jit_node_t*, jit_node_t*);
 #define jit_patch_abs(u,v)	_jit_patch_abs(_jit,u,v)
-extern void _jit_patch_abs(jit_state_t*, jit_node_t*, jit_pointer_t);
+extern LIBLIGHTNING_DLL_EXPORTED void _jit_patch_abs(jit_state_t*, jit_node_t*, jit_pointer_t);
 #define jit_realize()		_jit_realize(_jit)
-extern void _jit_realize(jit_state_t*);
+extern LIBLIGHTNING_DLL_EXPORTED void _jit_realize(jit_state_t*);
 #define jit_get_code(u)		_jit_get_code(_jit,u)
-extern jit_pointer_t _jit_get_code(jit_state_t*, jit_word_t*);
+extern LIBLIGHTNING_DLL_EXPORTED jit_pointer_t _jit_get_code(jit_state_t*, jit_word_t*);
 #define jit_set_code(u,v)	_jit_set_code(_jit,u,v)
-extern void _jit_set_code(jit_state_t*, jit_pointer_t, jit_word_t);
+extern LIBLIGHTNING_DLL_EXPORTED void _jit_set_code(jit_state_t*, jit_pointer_t, jit_word_t);
 #define jit_get_data(u,v)	_jit_get_data(_jit,u,v)
-extern jit_pointer_t _jit_get_data(jit_state_t*, jit_word_t*, jit_word_t*);
+extern LIBLIGHTNING_DLL_EXPORTED jit_pointer_t _jit_get_data(jit_state_t*, jit_word_t*, jit_word_t*);
 #define jit_set_data(u,v,w)	_jit_set_data(_jit,u,v,w)
-extern void _jit_set_data(jit_state_t*, jit_pointer_t, jit_word_t, jit_word_t);
+extern LIBLIGHTNING_DLL_EXPORTED void _jit_set_data(jit_state_t*, jit_pointer_t, jit_word_t, jit_word_t);
 #define jit_frame(u)		_jit_frame(_jit,u)
-extern void _jit_frame(jit_state_t*, jit_int32_t);
+extern LIBLIGHTNING_DLL_EXPORTED void _jit_frame(jit_state_t*, jit_int32_t);
 #define jit_tramp(u)		_jit_tramp(_jit,u)
-extern void _jit_tramp(jit_state_t*, jit_int32_t);
+extern LIBLIGHTNING_DLL_EXPORTED void _jit_tramp(jit_state_t*, jit_int32_t);
 #define jit_emit()		_jit_emit(_jit)
-extern jit_pointer_t _jit_emit(jit_state_t*);
+extern LIBLIGHTNING_DLL_EXPORTED jit_pointer_t _jit_emit(jit_state_t*);
 
 #define jit_print()		_jit_print(_jit)
-extern void _jit_print(jit_state_t*);
+extern LIBLIGHTNING_DLL_EXPORTED void _jit_print(jit_state_t*);
 
-extern jit_node_t *_jit_arg_f(jit_state_t*);
-extern void _jit_getarg_f(jit_state_t*, jit_fpr_t, jit_node_t*);
-extern void _jit_putargr_f(jit_state_t*, jit_fpr_t, jit_node_t*);
-extern void _jit_putargi_f(jit_state_t*, jit_float32_t, jit_node_t*);
-extern void _jit_pushargr_f(jit_state_t*, jit_fpr_t);
-extern void _jit_pushargi_f(jit_state_t*, jit_float32_t);
-extern void _jit_retr_f(jit_state_t*, jit_fpr_t);
-extern void _jit_reti_f(jit_state_t*, jit_float32_t);
-extern void _jit_retval_f(jit_state_t*, jit_fpr_t);
+extern LIBLIGHTNING_DLL_EXPORTED jit_node_t *_jit_arg_f(jit_state_t*);
+extern LIBLIGHTNING_DLL_EXPORTED void _jit_getarg_f(jit_state_t*, jit_fpr_t, jit_node_t*);
+extern LIBLIGHTNING_DLL_EXPORTED void _jit_putargr_f(jit_state_t*, jit_fpr_t, jit_node_t*);
+extern LIBLIGHTNING_DLL_EXPORTED void _jit_putargi_f(jit_state_t*, jit_float32_t, jit_node_t*);
+extern LIBLIGHTNING_DLL_EXPORTED void _jit_pushargr_f(jit_state_t*, jit_fpr_t);
+extern LIBLIGHTNING_DLL_EXPORTED void _jit_pushargi_f(jit_state_t*, jit_float32_t);
+extern LIBLIGHTNING_DLL_EXPORTED void _jit_retr_f(jit_state_t*, jit_fpr_t);
+extern LIBLIGHTNING_DLL_EXPORTED void _jit_reti_f(jit_state_t*, jit_float32_t);
+extern LIBLIGHTNING_DLL_EXPORTED void _jit_retval_f(jit_state_t*, jit_fpr_t);
 
-extern jit_node_t *_jit_arg_d(jit_state_t*);
-extern void _jit_getarg_d(jit_state_t*, jit_fpr_t, jit_node_t*);
-extern void _jit_putargr_d(jit_state_t*, jit_fpr_t, jit_node_t*);
-extern void _jit_putargi_d(jit_state_t*, jit_float64_t, jit_node_t*);
-extern void _jit_pushargr_d(jit_state_t*, jit_fpr_t);
-extern void _jit_pushargi_d(jit_state_t*, jit_float64_t);
-extern void _jit_retr_d(jit_state_t*, jit_fpr_t);
-extern void _jit_reti_d(jit_state_t*, jit_float64_t);
-extern void _jit_retval_d(jit_state_t*, jit_fpr_t);
+extern LIBLIGHTNING_DLL_EXPORTED jit_node_t *_jit_arg_d(jit_state_t*);
+extern LIBLIGHTNING_DLL_EXPORTED void _jit_getarg_d(jit_state_t*, jit_fpr_t, jit_node_t*);
+extern LIBLIGHTNING_DLL_EXPORTED void _jit_putargr_d(jit_state_t*, jit_fpr_t, jit_node_t*);
+extern LIBLIGHTNING_DLL_EXPORTED void _jit_putargi_d(jit_state_t*, jit_float64_t, jit_node_t*);
+extern LIBLIGHTNING_DLL_EXPORTED void _jit_pushargr_d(jit_state_t*, jit_fpr_t);
+extern LIBLIGHTNING_DLL_EXPORTED void _jit_pushargi_d(jit_state_t*, jit_float64_t);
+extern LIBLIGHTNING_DLL_EXPORTED void _jit_retr_d(jit_state_t*, jit_fpr_t);
+extern LIBLIGHTNING_DLL_EXPORTED void _jit_reti_d(jit_state_t*, jit_float64_t);
+extern LIBLIGHTNING_DLL_EXPORTED void _jit_retval_d(jit_state_t*, jit_fpr_t);
 
 #define jit_new_node(c)		_jit_new_node(_jit,c)
-extern jit_node_t *_jit_new_node(jit_state_t*, jit_code_t);
+extern LIBLIGHTNING_DLL_EXPORTED jit_node_t *_jit_new_node(jit_state_t*, jit_code_t);
 #define jit_new_node_w(c,u)	_jit_new_node_w(_jit,c,u)
-extern jit_node_t *_jit_new_node_w(jit_state_t*, jit_code_t,
+extern LIBLIGHTNING_DLL_EXPORTED jit_node_t *_jit_new_node_w(jit_state_t*, jit_code_t,
 				   jit_word_t);
 #define jit_new_node_f(c,u)	_jit_new_node_f(_jit,c,u)
-extern jit_node_t *_jit_new_node_f(jit_state_t*, jit_code_t,
+extern LIBLIGHTNING_DLL_EXPORTED jit_node_t *_jit_new_node_f(jit_state_t*, jit_code_t,
 				   jit_float32_t);
 #define jit_new_node_d(c,u)	_jit_new_node_d(_jit,c,u)
-extern jit_node_t *_jit_new_node_d(jit_state_t*, jit_code_t,
+extern LIBLIGHTNING_DLL_EXPORTED jit_node_t *_jit_new_node_d(jit_state_t*, jit_code_t,
 				   jit_float64_t);
 #define jit_new_node_p(c,u)	_jit_new_node_p(_jit,c,u)
-extern jit_node_t *_jit_new_node_p(jit_state_t*, jit_code_t,
+extern LIBLIGHTNING_DLL_EXPORTED jit_node_t *_jit_new_node_p(jit_state_t*, jit_code_t,
 				   jit_pointer_t);
 #define jit_new_node_ww(c,u,v)	_jit_new_node_ww(_jit,c,u,v)
-extern jit_node_t *_jit_new_node_ww(jit_state_t*,jit_code_t,
+extern LIBLIGHTNING_DLL_EXPORTED jit_node_t *_jit_new_node_ww(jit_state_t*,jit_code_t,
 				    jit_word_t, jit_word_t);
 #define jit_new_node_wp(c,u,v)	_jit_new_node_wp(_jit,c,u,v)
-extern jit_node_t *_jit_new_node_wp(jit_state_t*,jit_code_t,
+extern LIBLIGHTNING_DLL_EXPORTED jit_node_t *_jit_new_node_wp(jit_state_t*,jit_code_t,
 				    jit_word_t, jit_pointer_t);
 #define jit_new_node_fp(c,u,v)	_jit_new_node_fp(_jit,c,u,v)
-extern jit_node_t *_jit_new_node_fp(jit_state_t*,jit_code_t,
+extern LIBLIGHTNING_DLL_EXPORTED jit_node_t *_jit_new_node_fp(jit_state_t*,jit_code_t,
 				    jit_float32_t, jit_pointer_t);
 #define jit_new_node_dp(c,u,v)	_jit_new_node_dp(_jit,c,u,v)
-extern jit_node_t *_jit_new_node_dp(jit_state_t*,jit_code_t,
+extern LIBLIGHTNING_DLL_EXPORTED jit_node_t *_jit_new_node_dp(jit_state_t*,jit_code_t,
 				    jit_float64_t, jit_pointer_t);
 #define jit_new_node_pw(c,u,v)	_jit_new_node_pw(_jit,c,u,v)
-extern jit_node_t *_jit_new_node_pw(jit_state_t*,jit_code_t,
+extern LIBLIGHTNING_DLL_EXPORTED jit_node_t *_jit_new_node_pw(jit_state_t*,jit_code_t,
 				    jit_pointer_t, jit_word_t);
 #define jit_new_node_wf(c,u,v)	_jit_new_node_wf(_jit,c,u,v)
-extern jit_node_t *_jit_new_node_wf(jit_state_t*, jit_code_t,
+extern LIBLIGHTNING_DLL_EXPORTED jit_node_t *_jit_new_node_wf(jit_state_t*, jit_code_t,
 				    jit_word_t, jit_float32_t);
 #define jit_new_node_wd(c,u,v)	_jit_new_node_wd(_jit,c,u,v)
-extern jit_node_t *_jit_new_node_wd(jit_state_t*, jit_code_t,
+extern LIBLIGHTNING_DLL_EXPORTED jit_node_t *_jit_new_node_wd(jit_state_t*, jit_code_t,
 				    jit_word_t, jit_float64_t);
 #define jit_new_node_www(c,u,v,w) _jit_new_node_www(_jit,c,u,v,w)
-extern jit_node_t *_jit_new_node_www(jit_state_t*, jit_code_t,
+extern LIBLIGHTNING_DLL_EXPORTED jit_node_t *_jit_new_node_www(jit_state_t*, jit_code_t,
 				     jit_word_t, jit_word_t, jit_word_t);
 #define jit_new_node_qww(c,l,h,v,w) _jit_new_node_qww(_jit,c,l,h,v,w)
-extern jit_node_t *_jit_new_node_qww(jit_state_t*, jit_code_t,
+extern LIBLIGHTNING_DLL_EXPORTED jit_node_t *_jit_new_node_qww(jit_state_t*, jit_code_t,
 				     jit_int32_t, jit_int32_t,
 				     jit_word_t, jit_word_t);
 #define jit_new_node_wwf(c,u,v,w) _jit_new_node_wwf(_jit,c,u,v,w)
-extern jit_node_t *_jit_new_node_wwf(jit_state_t*, jit_code_t,
+extern LIBLIGHTNING_DLL_EXPORTED jit_node_t *_jit_new_node_wwf(jit_state_t*, jit_code_t,
 				     jit_word_t, jit_word_t, jit_float32_t);
 #define jit_new_node_wwd(c,u,v,w) _jit_new_node_wwd(_jit,c,u,v,w)
-extern jit_node_t *_jit_new_node_wwd(jit_state_t*, jit_code_t,
+extern LIBLIGHTNING_DLL_EXPORTED jit_node_t *_jit_new_node_wwd(jit_state_t*, jit_code_t,
 				     jit_word_t, jit_word_t, jit_float64_t);
 #define jit_new_node_pww(c,u,v,w) _jit_new_node_pww(_jit,c,u,v,w)
-extern jit_node_t *_jit_new_node_pww(jit_state_t*, jit_code_t,
+extern LIBLIGHTNING_DLL_EXPORTED jit_node_t *_jit_new_node_pww(jit_state_t*, jit_code_t,
 				     jit_pointer_t, jit_word_t, jit_word_t);
 #define jit_new_node_pwf(c,u,v,w) _jit_new_node_pwf(_jit,c,u,v,w)
-extern jit_node_t *_jit_new_node_pwf(jit_state_t*, jit_code_t,
+extern LIBLIGHTNING_DLL_EXPORTED jit_node_t *_jit_new_node_pwf(jit_state_t*, jit_code_t,
 				     jit_pointer_t, jit_word_t, jit_float32_t);
 #define jit_new_node_pwd(c,u,v,w) _jit_new_node_pwd(_jit,c,u,v,w)
-extern jit_node_t *_jit_new_node_pwd(jit_state_t*, jit_code_t,
+extern LIBLIGHTNING_DLL_EXPORTED jit_node_t *_jit_new_node_pwd(jit_state_t*, jit_code_t,
 				     jit_pointer_t, jit_word_t, jit_float64_t);
 
 #define jit_arg_register_p(u)		_jit_arg_register_p(_jit,u)
-extern jit_bool_t _jit_arg_register_p(jit_state_t*, jit_node_t*);
+extern LIBLIGHTNING_DLL_EXPORTED jit_bool_t _jit_arg_register_p(jit_state_t*, jit_node_t*);
 #define jit_callee_save_p(u)		_jit_callee_save_p(_jit,u)
-extern jit_bool_t _jit_callee_save_p(jit_state_t*, jit_int32_t);
+extern LIBLIGHTNING_DLL_EXPORTED jit_bool_t _jit_callee_save_p(jit_state_t*, jit_int32_t);
 #define jit_pointer_p(u)		_jit_pointer_p(_jit,u)
-extern jit_bool_t _jit_pointer_p(jit_state_t*,jit_pointer_t);
+extern LIBLIGHTNING_DLL_EXPORTED jit_bool_t _jit_pointer_p(jit_state_t*,jit_pointer_t);
 
 #define jit_get_note(n,u,v,w)	_jit_get_note(_jit,n,u,v,w)
-extern jit_bool_t _jit_get_note(jit_state_t*,jit_pointer_t,char**,char**,int*);
+extern LIBLIGHTNING_DLL_EXPORTED jit_bool_t _jit_get_note(jit_state_t*,jit_pointer_t,char**,char**,int*);
 
 #define jit_disassemble()		_jit_disassemble(_jit)
-extern void _jit_disassemble(jit_state_t*);
+extern LIBLIGHTNING_DLL_EXPORTED void _jit_disassemble(jit_state_t*);
 
-extern void jit_set_memory_functions(jit_alloc_func_ptr,
+extern LIBLIGHTNING_DLL_EXPORTED void jit_set_memory_functions(jit_alloc_func_ptr,
 				     jit_realloc_func_ptr,
 				     jit_free_func_ptr);
-extern void jit_get_memory_functions(jit_alloc_func_ptr*,
+extern LIBLIGHTNING_DLL_EXPORTED void jit_get_memory_functions(jit_alloc_func_ptr*,
 				     jit_realloc_func_ptr*,
 				     jit_free_func_ptr*);
 
